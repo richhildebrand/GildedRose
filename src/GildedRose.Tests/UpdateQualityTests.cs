@@ -28,5 +28,11 @@ namespace GildedRose.Tests
             
             CollectionAssert.IsEmpty(itemsWithQualityOver50);
         }
+
+        [Test]
+        public void GivenOneOfEachItemType_WhenQualityIs0_NeverReturnQualityUnder0()
+        {
+            Assert.True(false);
+        }
     }
 }
