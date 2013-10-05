@@ -49,5 +49,11 @@ namespace GildedRose.Tests
 
             CollectionAssert.IsEmpty(itemsWithQualityOf0OrGreater);
         }
+
+        [Test]
+        public void GivenAnItem_WhenItsTheEndOfTheDay_SellInValueShouldDecreaseByOne()
+        {
+            Assert.IsTrue(false);
+        }
     }
 }
