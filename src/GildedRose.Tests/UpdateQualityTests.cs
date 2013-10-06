@@ -9,51 +9,58 @@ namespace GildedRose.Tests
     [TestFixture]
     class UpdateQualityTests
     {
-        [Test]
-        public void GivenOneOfEachItemType_WhenQualityIs50_NeverReturnQualityOver50()
+        [TestCase("+5 Dexterity Vest")]
+        [TestCase("Aged Brie")]
+        [TestCase("Elixir of the Mongoose")]
+        [TestCase("Sulfuras, Hand of Ragnaros")]
+        [TestCase("Backstage passes to a TAFKAL80ETC concert")]
+        [TestCase("Conjured Mana Cake")]
+        public void GivenOneOfEachItemType_WhenQualityIs50_NeverReturnQualityOver50(string itemName)
         {
+            var maxQuality = 50;
             var app = new GildedRose.Console.Program();
-            var quality50Items = new List<Item> {
-                    new Item { Name = "+5 Dexterity Vest", SellIn = 10, Quality = 50},
-                    new Item { Name = "Aged Brie", SellIn = 2, Quality = 50},
-                    new Item { Name = "Elixir of the Mongoose", SellIn = 5, Quality = 50},
-                    new Item { Name = "Sulfuras, Hand of Ragnaros", SellIn = 0, Quality = 50},
-                    new Item { Name = "Backstage passes to a TAFKAL80ETC concert", SellIn = 15, Quality = 50 },
-                    new Item { Name = "Conjured Mana Cake", SellIn = 3, Quality = 50}
-            };
-            app.Items = quality50Items;
+            app.Items = new List<Item> { new Item { Name = itemName, SellIn = 10, Quality = maxQuality } };
 
             app.UpdateQuality();
-            var itemsWithQualityOver50 = app.Items.Where(i => i.Quality > 50);
-            
-            CollectionAssert.IsEmpty(itemsWithQualityOver50);
+            var resultQuality = app.Items.First().Quality;
+
+            Assert.GreaterOrEqual(maxQuality, resultQuality);
         }
 
-        [Test]
-        public void GivenOneOfEachItemType_WhenQualityIsNegative_NeverReturnItem()
+        [TestCase("+5 Dexterity Vest")]
+        [TestCase("Aged Brie")]
+        [TestCase("Elixir of the Mongoose")]
+        [TestCase("Sulfuras, Hand of Ragnaros")]
+        [TestCase("Backstage passes to a TAFKAL80ETC concert")]
+        [TestCase("Conjured Mana Cake")]
+        public void GivenOneOfEachItemType_WhenQualityIsNegative_NeverReturnItem(string itemName)
         {
+            var negativeQuality = -1;
             var app = new GildedRose.Console.Program();
-            var quality0Items = new List<Item> 
-            {
-                new Item { Name = "+5 Dexterity Vest", SellIn = 10, Quality = -1},
-                new Item { Name = "Aged Brie", SellIn = 2, Quality = -2},
-                new Item { Name = "Elixir of the Mongoose", SellIn = 5, Quality = -3},
-                new Item { Name = "Sulfuras, Hand of Ragnaros", SellIn = 0, Quality = -4},
-                new Item { Name = "Backstage passes to a TAFKAL80ETC concert", SellIn = 15, Quality = -5},
-                new Item { Name = "Conjured Mana Cake", SellIn = 3, Quality = -6}
-            };
-            app.Items = quality0Items;
+            app.Items = new List<Item> { new Item { Name = itemName, SellIn = 10, Quality = negativeQuality } };
 
             app.UpdateQuality();
-            var itemsWithQualityOf0OrGreater = app.Items.Where(i => i.Quality >= 0);
 
-            CollectionAssert.IsEmpty(itemsWithQualityOf0OrGreater);
+            // Not sure why this should be empty.
+            CollectionAssert.IsEmpty(app.Items);
         }
 
-        [Test]
-        public void GivenAnItem_WhenItsTheEndOfTheDay_SellInValueShouldDecreaseByOne()
+        [TestCase("+5 Dexterity Vest")]
+        [TestCase("Aged Brie")]
+        [TestCase("Elixir of the Mongoose")]
+        [TestCase("Sulfuras, Hand of Ragnaros")]
+        [TestCase("Backstage passes to a TAFKAL80ETC concert")]
+        [TestCase("Conjured Mana Cake")]
+        public void GivenAnItem_WhenItsTheEndOfTheDay_SellInValueShouldDecreaseByOne(string itemName)
         {
-            Assert.IsTrue(false);
+            var givenSellinValue = 10;
+            var app = new GildedRose.Console.Program();
+            app.Items = new List<Item> { new Item { Name = itemName, SellIn = givenSellinValue, Quality = 10 } };
+
+            app.UpdateQuality();
+            var resultSellInValue = app.Items.First().SellIn;
+
+            Assert.AreEqual(resultSellInValue, givenSellinValue - 1);
         }
     }
 }
