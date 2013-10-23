@@ -17,7 +17,7 @@ namespace GildedRose.Tests
         }
 
         [Test]
-        public virtual void GivenFiftyQuality_WithTwentySellIn_ThenItemQualityShouldBeLessThan51()
+        public virtual void GivenFiftyQuality_WithTwentySellIn_ThenItemQualityShouldBeLessThanFiftyOne()
         {
             var app = new GildedRose.Console.Program();
             app.Items = new List<Item> { new Item { Name = ItemToTest, SellIn = 20, Quality = 50 } };
@@ -26,6 +26,18 @@ namespace GildedRose.Tests
             var resultQuality = app.Items.First().Quality;
 
             Assert.Less(resultQuality, 51);
+        }
+
+        [Test]
+        public virtual void GivenZeroQuality_WithTwentySellIn_ThenItemQualityShouldNeverBeLessThanZero()
+        {
+            var app = new GildedRose.Console.Program();
+            app.Items = new List<Item> { new Item { Name = ItemToTest, SellIn = 20, Quality = 0 } };
+
+            app.UpdateQuality();
+            var resultQuality = app.Items.First().Quality;
+
+            Assert.GreaterOrEqual(resultQuality, 0);
         }
 
         [Test]
