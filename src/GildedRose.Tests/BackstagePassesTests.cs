@@ -11,6 +11,18 @@ namespace GildedRose.Tests
     {
         protected override string ItemToTest { get { return "Backstage passes to a TAFKAL80ETC concert"; } }
 
+
+        private void BackStagePassShouldIncreaseThreeQuality(int quality, int sellin)
+        {
+            var app = new GildedRose.Console.Program();
+            app.Items = new List<Item> { new Item { Name = ItemToTest, SellIn = sellin, Quality = quality } };
+
+            app.UpdateQuality();
+            var resultQuality = app.Items.First().Quality;
+
+            Assert.AreEqual(resultQuality, quality + 3);
+        }
+
         private void BackStatePassShouldBeZeroQuality(int quality, int sellin)
         {
             var app = new GildedRose.Console.Program();
@@ -57,11 +69,15 @@ namespace GildedRose.Tests
         }
 
         [Test]
+        public override void GivenTenQuality_WithFourSellIn_Then()
+        {
+            BackStagePassShouldIncreaseThreeQuality(10, 4);
+        }
+
+        [Test]
         public override void GivenThirtyQuality_WithNegativeSellIn_Then()
         {
             BackStatePassShouldBeZeroQuality(30, -1);
         }
-  
-        
     }
 }

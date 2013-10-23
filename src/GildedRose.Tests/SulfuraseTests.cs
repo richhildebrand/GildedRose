@@ -31,7 +31,12 @@ namespace GildedRose.Tests
         [Test]
         public override void GivenTenQuality_WithNineSellIn_Then()
         {
-            SulfurasShouldNeverDecreaseInQuality(10, 20);
+            SulfurasShouldNeverDecreaseInQuality(10, 9);
+        }
+
+        [Test]
+        public override void GivenTenQuality_WithFourSellIn_Then() {
+            SulfurasShouldNeverDecreaseInQuality(10, 4);
         }
 
         [Test]

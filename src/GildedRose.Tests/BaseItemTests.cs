@@ -40,6 +40,12 @@ namespace GildedRose.Tests
             ItemShouldDecreaseOneQuality(10, 9);
         }
 
+        [Test]
+        public virtual void GivenTenQuality_WithFourSellIn_Then()
+        {
+            ItemShouldDecreaseOneQuality(10, 4);
+        }
+
         private void ItemShouldDecreaseTwoQuality(int quality, int sellin)
         {
             var app = new GildedRose.Console.Program();

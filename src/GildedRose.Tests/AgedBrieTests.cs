@@ -50,5 +50,11 @@ namespace GildedRose.Tests
         {
             BreeShouldIncreaseTwoQuality(30, -1);
         }
+
+        [Test]
+        public override void GivenTenQuality_WithFourSellIn_Then()
+        {
+            BreeShouldIncreaseOneQuality(10, 4);
+        }
     }
 }
