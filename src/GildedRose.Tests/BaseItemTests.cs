@@ -11,6 +11,12 @@ namespace GildedRose.Tests
         abstract protected string ItemToTest { get; }
 
         [Test]
+        public virtual void GivenThirtyQuality_WithNegativeSellIn_Then()
+        {
+            ItemShouldDecreaseTwoQuality(30, -1);
+        }
+
+        [Test]
         public virtual void GivenFiftyQuality_WithTwentySellIn_ThenItemQualityShouldBeLessThan51()
         {
             var app = new GildedRose.Console.Program();
@@ -32,6 +38,17 @@ namespace GildedRose.Tests
         public virtual void GivenTenQuality_WithNineSellIn_Then()
         {
             ItemShouldDecreaseOneQuality(10, 9);
+        }
+
+        private void ItemShouldDecreaseTwoQuality(int quality, int sellin)
+        {
+            var app = new GildedRose.Console.Program();
+            app.Items = new List<Item> { new Item { Name = ItemToTest, SellIn = sellin, Quality = quality } };
+
+            app.UpdateQuality();
+            var resultQuality = app.Items.First().Quality;
+
+            Assert.AreEqual(resultQuality, quality-2);
         }
 
         private void ItemShouldDecreaseOneQuality(int quality, int sellIn) {

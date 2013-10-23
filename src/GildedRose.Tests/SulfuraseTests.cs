@@ -33,5 +33,11 @@ namespace GildedRose.Tests
         {
             SulfurasShouldNeverDecreaseInQuality(10, 20);
         }
+
+        [Test]
+        public override void GivenThirtyQuality_WithNegativeSellIn_Then()
+        {
+            SulfurasShouldNeverDecreaseInQuality(30, -1);
+        }
     }
 }

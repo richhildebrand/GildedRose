@@ -22,6 +22,17 @@ namespace GildedRose.Tests
             Assert.AreEqual(resultQuality, quality + 1);
         }
 
+        private void BreeShouldIncreaseTwoQuality(int quality, int sellIn)
+        {
+            var app = new GildedRose.Console.Program();
+            app.Items = new List<Item> { new Item { Name = ItemToTest, SellIn = sellIn, Quality = quality } };
+
+            app.UpdateQuality();
+            var resultQuality = app.Items.First().Quality;
+
+            Assert.AreEqual(resultQuality, quality + 2);
+        }
+
         [Test]
         public override void GivenTenQuality_WithTwentySellIn_Then()
         {
@@ -32,6 +43,12 @@ namespace GildedRose.Tests
         public override void GivenTenQuality_WithNineSellIn_Then()
         {
             BreeShouldIncreaseOneQuality(10, 9);
+        }
+
+        [Test]
+        public override void GivenThirtyQuality_WithNegativeSellIn_Then()
+        {
+            BreeShouldIncreaseTwoQuality(30, -1);
         }
     }
 }
