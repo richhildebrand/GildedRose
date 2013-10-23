@@ -11,26 +11,27 @@ namespace GildedRose.Tests
     {
         protected override string ItemToTest { get { return "Sulfuras, Hand of Ragnaros"; } }
 
-        // I was thinking of trying an inheritance model, 
-        // we could overload the tests that are differet for each
-        // item, but I can't figure out how to do naming, so it might be bad idea.
-        private void SulfurasShouldNeverDecreaseInQuality()
+        private void SulfurasShouldNeverDecreaseInQuality(int quality, int sellIn)
         {
-            var startingQuality = 10;
             var app = new GildedRose.Console.Program();
-            app.Items = new List<Item> { new Item { Name = ItemToTest, SellIn = 10, Quality = startingQuality } };
+            app.Items = new List<Item> { new Item { Name = ItemToTest, SellIn = sellIn, Quality = quality } };
 
             app.UpdateQuality();
             var resultQuality = app.Items.First().Quality;
 
-            Assert.AreEqual(resultQuality, startingQuality);
+            Assert.AreEqual(resultQuality, quality);
         }
 
-        // Something like this?
         [Test]
         public override void GivenTenQuality_WithTwentySellIn_Then()
         {
-            SulfurasShouldNeverDecreaseInQuality();
+            SulfurasShouldNeverDecreaseInQuality(10, 20);
+        }
+
+        [Test]
+        public override void GivenTenQuality_WithNineSellIn_Then()
+        {
+            SulfurasShouldNeverDecreaseInQuality(10, 20);
         }
     }
 }

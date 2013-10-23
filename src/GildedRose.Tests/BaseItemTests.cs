@@ -11,26 +11,37 @@ namespace GildedRose.Tests
         abstract protected string ItemToTest { get; }
 
         [Test]
-        public virtual void GivenTenQuality_WithTwentySellIn_Then()
+        public virtual void GivenFiftyQuality_WithTwentySellIn_ThenItemQualityShouldBeLessThan51()
         {
-            ItemShouldDecreaseOneQuality();
+            var app = new GildedRose.Console.Program();
+            app.Items = new List<Item> { new Item { Name = ItemToTest, SellIn = 20, Quality = 50 } };
+            
+            app.UpdateQuality();
+            var resultQuality = app.Items.First().Quality;
+
+            Assert.Less(resultQuality, 51);
         }
 
         [Test]
-        public void GivenTenQuality_WithNineSellIn_Then()
+        public virtual void GivenTenQuality_WithTwentySellIn_Then()
         {
-            ItemShouldDecreaseOneQuality();
+            ItemShouldDecreaseOneQuality(10, 20);
         }
 
-        private void ItemShouldDecreaseOneQuality() {
-            var givenSellinValue = 10;
+        [Test]
+        public virtual void GivenTenQuality_WithNineSellIn_Then()
+        {
+            ItemShouldDecreaseOneQuality(10, 9);
+        }
+
+        private void ItemShouldDecreaseOneQuality(int quality, int sellIn) {
             var app = new GildedRose.Console.Program();
-            app.Items = new List<Item> { new Item { Name = ItemToTest, SellIn = givenSellinValue, Quality = 10 } };
+            app.Items = new List<Item> { new Item { Name = ItemToTest, SellIn = sellIn, Quality = quality } };
 
             app.UpdateQuality();
-            var resultSellInValue = app.Items.First().SellIn;
+            var resultSellInValue = app.Items.First().Quality;
 
-            Assert.AreEqual(resultSellInValue, givenSellinValue - 1);
+            Assert.AreEqual(resultSellInValue, quality - 1);
         }
     }
 }
